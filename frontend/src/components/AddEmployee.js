@@ -11,8 +11,8 @@ const initialState = {
         password: '',
         mobileNumber: '',
         homeNumber: '',
+        sallary:"",
         address: "",
-        sallary: null,
         title: "",
         Department: "",
         mangerName: "",
@@ -153,7 +153,16 @@ export default class AddEmployee extends Component {
                         />
                         {this.state.errorMap.homeNumber && <div className="alert alert-danger">{this.state.errorMap.homeNumber}</div>}
                     </Form.Group>
-                    
+                    <Form.Group as={Col} controlId="formGridLastName"
+                        >
+                        <Form.Label>Sallary</Form.Label>
+                        <Form.Control type="text" placeholder="..."
+                        onChange={this.handleChange}
+                        value={this.state.employee.sallary}
+                        name="sallary"
+                        />
+                        {this.state.errorMap.sallary && <div className="alert alert-danger">{this.state.errorMap.sallary}</div>}
+                    </Form.Group>
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridState">

@@ -40,9 +40,10 @@ const Employee = mongoose.model('User', {
 		type: String,
 		
 	},
-	title: {
+	titleID: {
 		type: String,
 		required: true,
+		default: null, 
 	},
 	Department: {
 		type: String,
