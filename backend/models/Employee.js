@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Employee = mongoose.model('User', {
+const Employee = mongoose.model('Employee', {
 	firstname: {
 		type: String,
 		required: true,

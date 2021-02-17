@@ -1,5 +1,6 @@
 const express = require('express');
 const employeeRouter = require('./routers/Employee');
+const departmentRouter = require('./routers/Department');
 const cors = require('cors');
 const app = express();
 
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/employee', employeeRouter);
+app.use('/api/department', departmentRouter);
 app.get('/*', (req, res) => {
 	res.status(400).send('<h1>Error 404</h1>');
 });

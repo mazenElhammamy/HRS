@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Department = mongoose.model('User', {
+const Department = mongoose.model('Department', {
 	departmentName: {
 		type: String,
 		required: true,
@@ -7,7 +7,7 @@ const Department = mongoose.model('User', {
 	departmentManger: {
 		type: String,
 		required: true,
-        default:"Admin",
+        
 	},
 	departmentTitlesID: {
 		type: [],
