@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Col, Button } from 'react-bootstrap'
 import { Schema } from '../Schema/DepartmentFormSchema'
+import * as DepartmentActions from "../Actions/DepartmentActions"
 
 const initialState = {
     department: {
@@ -43,8 +44,11 @@ export default class AddDepartment extends Component {
         if (isValid) {
             const errorMap={}
             this.setState({errorMap})
+            const department = this.state.department
+            console.log(department)
+            DepartmentActions.createDepartment(department)
         }
-
+       
     };
     render() {
         return (

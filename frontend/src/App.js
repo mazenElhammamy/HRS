@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import Navbar from './Layout/Navbar';
 import Footer from './Layout/Footer';
-import Home from './components/Home';
-import AddEmployee from './components/AddEmployee';
+import Home from './Components/Home';
+import AddEmployee from './Components/AddEmployee';
 import { Switch, Route } from 'react-router-dom';
-import AddDepartment from './components/AddDepartment';
+import AddDepartment from './Components/AddDepartment';
+import AllDepartments from './Components/AllDepartments';
 
 
 export default class App extends Component {
@@ -19,6 +20,7 @@ export default class App extends Component {
 						<Route exact path="/addEmployee" component={AddEmployee} />
 						<Route exact path="/" component={Home} />
 						<Route exact path="/addDepartment" component={AddDepartment} />
+						<Route exact path="/allDepartment" component={AllDepartments} />
 					</Switch>
 				</div>
 				<div id="footer" >
