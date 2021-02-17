@@ -9,6 +9,10 @@ const Department = mongoose.model('User', {
 		required: true,
         default:"Admin",
 	},
+	departmentTitlesID: {
+		type: [],
+		
+	},
 	
 });
 module.exports = Department;

@@ -35,9 +35,9 @@ export const Schema = Joi.object({
         .trim()
         .regex(/^[0-9]{9}$/),
 
-    sallary: Joi.string()
-        .trim()
-        .regex(/^[0-9]{9}$/),
+    // sallary: Joi.string()
+    //     .trim()
+    //     .regex(/^[0-9]$/),
 
     password: Joi.string().messages({
         "string.pattern.base": "Password is in correct"
