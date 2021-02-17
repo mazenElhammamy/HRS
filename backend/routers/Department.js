@@ -19,4 +19,16 @@ departmentRouter.post('/addDepartment', async (req, res, next) => {
     }
 });
 
+
+departmentRouter.get('/getAllDepartment', async (req, res, next) => {
+    try {
+        const departments = await Department.find()
+        res.status(200).json({ status: "successful get departments",departments:departments })
+        return
+    } catch {
+        res.status(400).json({ status: "failed to get departments" })
+        return
+
+    }
+});
 module.exports = departmentRouter
