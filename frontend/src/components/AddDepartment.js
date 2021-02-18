@@ -16,6 +16,8 @@ export default class AddDepartment extends Component {
     constructor() {
         super()
         this.state = initialState;
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
 
@@ -32,13 +34,13 @@ export default class AddDepartment extends Component {
         }
         return true
     };
-    handleChange = (e) => {
+    handleChange(e){
         let department = { ...this.state.department };
         department[e.currentTarget.name] = e.currentTarget.value;
         this.setState({ department });
     };
 
-    handleSubmit = (e) => {
+    handleSubmit(e){
         e.preventDefault();
         const isValid = this.validate();
         if (isValid) {
