@@ -31,4 +31,17 @@ departmentRouter.get('/getAllDepartment', async (req, res, next) => {
 
     }
 });
+
+departmentRouter.post('/deleteDepartment', async (req, res, next) => {
+    try {  
+        const departmentId = req.body._id
+      await Department.findOneAndDelete({ _id: departmentId });
+        res.status(200).json({ status: "successful delete department"})
+        return
+    } catch {
+        res.status(400).json({ status: "failed to delete departments" })
+        return
+
+    }
+});
 module.exports = departmentRouter
