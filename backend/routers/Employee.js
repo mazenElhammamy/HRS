@@ -6,17 +6,19 @@ const saltRounds = 10;
 const { generate } = require('../helpers/token');
 
 
-employeeRouter.post('/register', async (req, res, next) => {
+employeeRouter.post('/addNewEmployee', async (req, res, next) => {
+console.log(req.body)
   try {
     const { body } = req;
     const salt = await bcrypt.genSalt(saltRounds)
     const hashedPassword = await bcrypt.hash(body.password, salt)
     body.password = hashedPassword;
-    const user = new Employee(body);
-    await user.save()
+    const employee = new Employee(body);
+    await employee.save()
     res.status(201).json({ status: "successful registeration" })
     return
   } catch (err) {
+    console.log(err)
     res.status(400).json({ status: "registeration failed chech your inputs", error: err })
     return
   }
@@ -25,13 +27,12 @@ employeeRouter.post('/register', async (req, res, next) => {
 employeeRouter.post('/login', async (req, res, next) => {
   try {
     const { body } = req;
-    const user = await Employee.findOne({ email: body.email })
+    const employee = await Employee.findOne({ email: body.email })
     if (employee) {
-      const match = await bcrypt.compare(body.password, user.password)
+      const match = await bcrypt.compare(body.password, employee.password)
       if (match) {
-        const token = await generate(user._id)
+        const token = await generate(employee._id)
         const respose = {
-          user,
           token,
           status: 'loggedIn'
         }

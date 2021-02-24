@@ -6,11 +6,11 @@ const Employee = mongoose.model('Employee', {
 	},
 	lastname: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	fullname: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	email: {
 		type: String,
@@ -20,7 +20,7 @@ const Employee = mongoose.model('Employee', {
 	password: {
 		type: String,
 		required: true,
-	},
+	 },
 	address: {
 		type: String,
 		required: true,
@@ -40,18 +40,18 @@ const Employee = mongoose.model('Employee', {
 		type: String,
 		
 	},
-	titleID: {
+	titleId: {
 		type: String,
 		required: true,
 		default: null, 
 	},
-	Department: {
+	departmentName: {
 		type: String,
 		required: true,
 	},
 	mangerID: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	vacationDays :{
 		type: Number,
