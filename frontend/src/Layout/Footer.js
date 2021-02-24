@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Footer() {
 	return (
 		<React.Fragment>
-			<footer id="footer" className="text-center ">
+			<footer id="footer" className="text-center pt-10">
 				<div className="container py-4">
 					<div className="row border-bottom">
 						<div className="col-md-10 text-lg-left">
