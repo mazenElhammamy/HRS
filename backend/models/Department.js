@@ -9,10 +9,6 @@ const Department = mongoose.model('Department', {
 		required: true,
         
 	},
-	departmentTitlesID: {
-		type: [],
-		
-	},
 	
 });
 module.exports = Department;
