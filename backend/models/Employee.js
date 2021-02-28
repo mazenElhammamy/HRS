@@ -45,7 +45,7 @@ const Employee = mongoose.model('Employee', {
 		required: true,
 		default: null, 
 	},
-	departmentName: {
+	departmentId: {
 		type: String,
 		required: true,
 	},

@@ -5,12 +5,6 @@ class DepartmentStore extends EventEmitter {
         super()
         this.departments = []
     }
-    // createDepartment(data){
-    //     debugger;
-    //     this.departments.push(data)
-    //     this.emit("change")
-
-    // }
     getAllDepartments(data) {
         this.departments = data;
         this.emit("change")

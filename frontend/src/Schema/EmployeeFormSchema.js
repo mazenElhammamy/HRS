@@ -14,13 +14,11 @@ export const Schema = Joi.object({
         .required(),
 
     fullname: Joi.string()
-        .alphanum()
         .min(3)
         .max(30)
         .required(),
 
     address: Joi.string()
-        .alphanum()
         .min(3)
         .max(30)
         .required(),
@@ -33,11 +31,11 @@ export const Schema = Joi.object({
 
     homeNumber: Joi.string()
         .trim()
-        .regex(/^[0-9]{9}$/),
+        .regex(/^[0-9]+$/),
 
-    // sallary: Joi.string()
-    //     .trim()
-    //     .regex(/^[0-9]$/),
+    sallary: Joi.string()
+        .trim()
+        .regex(/^[0-9]+$/),
 
     password: Joi.string().messages({
         "string.pattern.base": "Password is in correct"

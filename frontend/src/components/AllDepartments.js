@@ -8,29 +8,28 @@ export default class AllDepartments extends Component {
         this.state = {
             departments: []
         }
-        // this.deleteDepartment = this.deleteDepartment.bind(this)
+       
     }
 
-    componentDidMount(){
+    componentDidMount() {
         DepartmentActions.getAllDepartment();
         DepartmentStore.on("change", () => {
             this.setState({ departments: DepartmentStore.getAll() });
         })
     }
-    deleteDepartment(id){
+    deleteDepartment(id) {
         DepartmentActions.deleteDepartment(id);
         DepartmentActions.getAllDepartment();
         DepartmentStore.on("change", () => {
             this.setState({ departments: DepartmentStore.getAll() });
         })
     }
-    // editDepartment(id){
-    //     console.log("id from edit",id)
-        
-    // }
+   
     render() {
         return (
             <div className='container mt-10' >
+            <a href="/addDepartment"><i class="fas fa-plus"> add new department</i></a>
+
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -52,6 +51,7 @@ export default class AllDepartments extends Component {
                                             </div>
                                             <div style={{ cursor: 'pointer' }} onClick={() => this.deleteDepartment(department._id)} >
                                                 <i className="fas fa-trash-alt " ></i>
+                                                {/* {uiutiels.geticon(icons.TRASH)} */}
                                             </div>
                                         </div>
                                     </td>

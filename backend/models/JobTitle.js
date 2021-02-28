@@ -8,5 +8,9 @@ const JobTitle = mongoose.model('JobTitle', {
 		type: String,
 		required: true,    
 	},	
+	hierarchyNumber:{
+		type: Number,
+		required: true,
+	}
 });
 module.exports = JobTitle;

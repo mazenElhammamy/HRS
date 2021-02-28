@@ -7,10 +7,11 @@ const Department = require('../models/Department')
 
 titleRouter.post('/addTitle', async (req, res, next) => {
     try {
-        const department= await Department.findOne({ departmentName: req.body.departmentName });
+        
         const obj = {
             titleName : req.body.titleName,
-            departmentId : department._id
+            departmentId : req.body.departmentId ,
+            hierarchyNumber :req.body.hierarchyNumber
         }
         const title = new Title(obj);
         console.log(title.departmentId)
@@ -27,8 +28,7 @@ titleRouter.post('/addTitle', async (req, res, next) => {
 
 titleRouter.post('/titleByDepartment', async (req, res, next) => {
     try {
-        const department= await Department.findOne({ departmentName: req.body.departmentName });
-        const titles= await Title.find({ departmentId:department._id  });
+        const titles= await Title.find({ departmentId:req.body.departmentId});
         res.status(200).json({ status: "successful gitting titles",titles:titles })
         return
     } catch(err) {

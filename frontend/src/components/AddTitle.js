@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Form, Col, Button } from 'react-bootstrap'
 import DepartmentStore from './../Store/departmentStore';
 import * as DepartmentActions from "../Actions/DepartmentActions"
-import * as TitletActions from "../Actions/TitleActions"
+import * as TitleActions from "../Actions/TitleActions"
 const initialState = {
     title: {
         titleName: "",
-        departmentName: '',
+        departmentId: '',
+        hierarchyNumber: null
     },
+    hierarchyNumber:[0,1,2,3,4,5,6],
     departments: []
 };
 
@@ -35,7 +37,7 @@ export default class AddTitle extends Component {
         e.preventDefault();
         console.log(this.state.title)
         const title = this.state.title
-        TitletActions.createTitle(title);
+        TitleActions.createTitle(title);
             this.props.history.push('/employeeHome');
     };
     render() {
@@ -53,26 +55,27 @@ export default class AddTitle extends Component {
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridState">
                         <Form.Label>Department</Form.Label>
-                        <select
-                            className="form-control"
-                            aria-label="Default select example"
-                            id="departmentName"
-                            value={this.state.title.departmentName}
-                            onChange={this.handleChange}
-                            name="departmentName"
-                            required
-                        >
-
+                        <select  className="form-control" aria-label="Default select example"
+                            id="departmentId" value={this.state.title.departmentId} onChange={this.handleChange}  name="departmentId" >
                             <option >Choose from these departments:</option>
                             {this.state.departments.map((department) => {
                                 return (
-                                    <option key={department._id} value={department.departmentName}>{department.departmentName}</option>
+                                    <option key={department._id} value={department._id}>{department.departmentName}</option>
                                 )
                             })}
-
-
                         </select>
-
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formHierarchyNumber">
+                        <Form.Label>Hierarchy Number</Form.Label>
+                        <select  className="form-control" aria-label="Default select example"
+                            id="hierarchyNumber" value={this.state.title.hierarchyNumber} onChange={this.handleChange}  name="hierarchyNumber" >
+                            <option >Choose from these numbers:</option>
+                            {this.state.hierarchyNumber.map((number) => {
+                                return (
+                                    <option key={number} value={number}>{number}</option>
+                                )
+                            })}
+                        </select>
                     </Form.Group>
 
                 </Form.Row>

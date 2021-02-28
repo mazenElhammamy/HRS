@@ -18,10 +18,10 @@ export async function createTitle(title) {
   
 }
 
-export async function gitTitlesByDepartment(departmentName) {
+export async function gitTitlesByDepartment(departmentId) {
       const options = {
           method: 'POST',
-          data:{departmentName:departmentName} ,
+          data:{departmentId:departmentId} ,
           url: 'http://localhost:5000/api/title/titleByDepartment',
       };
     await  axios(options)

@@ -19,7 +19,7 @@ const initialState = {
         sallary: "",
         address: "",
         titleId: "",
-        departmentName: "",
+        departmentId: "",
         mangerName: "",
         admin: Boolean
 
@@ -36,7 +36,7 @@ export default class AddEmployee extends Component {
         this.state = initialState;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.validate = this.validate.bind(this);
+        this.validate = this.validate.bind(this);
         this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
     }
     componentDidMount() {
@@ -47,30 +47,31 @@ export default class AddEmployee extends Component {
     }
  
 
-    // validate() {
-    //     const employee = {
-    //         firstname: this.state.employee.firstname,
-    //         lastname: this.state.employee.lastname,
-    //         fullname: this.state.employee.fullname,
-    //         email:this.state.employee.email,
-    //         password:this.state.employee.password,
-    //         homeNumber: this.state.employee.homeNumber,
-    //         mobileNumber:this.state.employee.mobileNumber,
-    //         address: this.state.employee.address
-    //     }
-    //     const { error } = Schema.validate(employee, { abortEarly: false });
-    //     const errorMap = {};
-    //     var result = true;
-    //     if (error) {
-    //         result = false
-    //         error.details.forEach(errorDetails => {
-    //             const key = errorDetails.context.key;
-    //             errorMap[key] = errorDetails.message;
-    //         });
-    //         this.setState({ errorMap})  
-    //     }
-    //     return result
-    // };
+    validate() {
+        const employee = {
+            firstname: this.state.employee.firstname,
+            lastname: this.state.employee.lastname,
+            fullname: this.state.employee.fullname,
+            email:this.state.employee.email,
+            password:this.state.employee.password,
+            homeNumber: this.state.employee.homeNumber,
+            mobileNumber:this.state.employee.mobileNumber,
+            address: this.state.employee.address,
+            sallary:this.state.employee.sallary
+        }
+        const { error } = Schema.validate(employee, { abortEarly: false });
+        const errorMap = {};
+        var result = true;
+        if (error) {
+            result = false
+            error.details.forEach(errorDetails => {
+                const key = errorDetails.context.key;
+                errorMap[key] = errorDetails.message;
+            });
+            this.setState({ errorMap})  
+        }
+        return result
+    };
     handleChange(e) {
         let state = { ...this.state.employee };
         state[e.currentTarget.name] = e.currentTarget.value;
@@ -89,16 +90,14 @@ export default class AddEmployee extends Component {
     handleSubmit(e) {
         e.preventDefault();
         console.log(this.state)
-        // const isValid = this.validate();
-        // if (isValid) {
-        //     console.log("done")
-        // }else{
-        //     console.log("error")
-        // }
-        const employee = this.state.employee
-        EmployeeActions.addNewEmployee(employee);
-            this.props.history.push('/employeeHome');
-
+        const isValid = this.validate();
+        if (isValid) {
+            const errorMap = {};
+            this.setState({errorMap})
+             const employee = this.state.employee
+             EmployeeActions.addNewEmployee(employee);
+             this.props.history.push('/employeeHome');
+        } 
     };
     render() {
         return (
@@ -154,7 +153,7 @@ export default class AddEmployee extends Component {
                 <Form.Group as={Col} controlId="formGridHomeNumber">
                     <Form.Label>Home number</Form.Label>
                     <Form.Control type="text" placeholder="home number" onChange={this.handleChange}
-                        value={this.state.employee.homeNumber}name="homeNumber" />
+                        value={this.state.employee.homeNumber} name="homeNumber" />
                     {this.state.errorMap.homeNumber && <div className="alert alert-danger">{this.state.errorMap.homeNumber}</div>}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridSallary">
@@ -168,12 +167,12 @@ export default class AddEmployee extends Component {
                     <Form.Group as={Col} controlId="formGridDepartment">
                         <Form.Label>Department</Form.Label>
                         <select className="form-control" aria-label="Default select example"
-                            id="departmentName" value={this.state.employee.departmentName}
-                            onChange={this.handleDepartmentChange}name="departmentName" >
+                            id="departmentId" value={this.state.employee.departmentId}
+                            onChange={this.handleDepartmentChange}name="departmentId" >
                             <option >Choose from these departments:</option>
                             {this.state.departments.map((department) => {
                                 return (
-                                    <option key={department._id} value={department.departmentName}>{department.departmentName}</option>
+                                    <option key={department._id} value={department._id}>{department.departmentName}</option>
                                 )
                             })}
                         </select>

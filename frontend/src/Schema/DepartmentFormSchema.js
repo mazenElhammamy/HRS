@@ -6,7 +6,4 @@ export const Schema = Joi.object({
         .min(2)
         .max(30)
         .required(),
-    departmentManger: Joi.any()
-        
-
 })
