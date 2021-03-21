@@ -32,19 +32,19 @@ function WhoWeAre() {
 						<h5 className="text-uppercase">Connect with us</h5>
 						<hr className="bottom-border bottom-border-primary" />
 						<div className='mb-2 row' >
-						<i class="fas fa-envelope col-2"></i>
+						<i className="fas fa-envelope col-2"></i>
 							<span className='col-10 text-left' >it@eventumsolutions.com</span>
 						</div>
 						<div className='mb-2 row' >
-						<i class="fas fa-phone-alt col-2">	</i>
+						<i className="fas fa-phone-alt col-2">	</i>
 							<span className='col-10 text-left' >(+2) 03 427-0048</span>
 						</div>
 						<div className='mb-2 row' >
-						<i class="fas fa-fax col-2 ">	</i>
+						<i className="fas fa-fax col-2 ">	</i>
 							<span className='col-10 text-left' >(+2) 03 427-0049</span>
 						</div>
 						<div className='mb-2 row'  >
-						<i class="fas fa-map-marker-alt  col-2">	</i>
+						<i className="fas fa-map-marker-alt  col-2">	</i>
 							<span className='col-10 text-left' >Eventum IT Solutions Solitaire Tower, 14th of May Avenue Alexandria, Egypt </span>
 						</div>
 						
