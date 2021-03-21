@@ -5,9 +5,14 @@ class EmployeeStore extends EventEmitter {
         super()
         this.loggedIn = false
         this.employees = []
+        this.employee = {}
     }
     getAllEmployees(data) {
         this.employees = data;
+        this.emit("change")
+    }
+    getMyData(data) {
+        this.employee = data
         this.emit("change")
     }
     setLoggedIn(action) {
@@ -16,19 +21,21 @@ class EmployeeStore extends EventEmitter {
             this.loggedIn = true;
             action.history.push('/home');
             this.emit("change");
-            
-        }else{
+
+        } else {
             this.loggedIn = true;
             this.emit("change");
         }
-        
+
     }
     logout() {
         localStorage.clear();
         this.loggedIn = false;
         this.emit("change");
     }
-
+    getEmployeeData() {
+        return this.employee;
+    }
     getLoggedIn() {
         return this.loggedIn;
     }
@@ -43,8 +50,10 @@ class EmployeeStore extends EventEmitter {
                 this.getAllEmployees(action.data);
             }
             case "LOGGED_IN": {
-                console.log("actionn", action)
                 this.setLoggedIn(action)
+            }
+            case "GET_MY_DATA": {
+                this.getMyData(action.data)
             }
 
         }

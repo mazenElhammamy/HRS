@@ -24,13 +24,11 @@ export function login(data, history) {
   };
   axios(options)
     .then((res) => {
-      console.log("resssss", res)
       dispatcher.dispatch({
         type: "LOGGED_IN",
         data: res.data.token,
         history: history
       });
-      // localStorage.setItem('token', res.data.token);
     })
     .catch((err) => {
       console.log("errrrrr", err)
@@ -73,7 +71,6 @@ export function getAllLeaders(titleId) {
   };
   axios(options)
     .then((res) => {
-      console.log("ressss", res.data.leaders)
       dispatcher.dispatch({
         type: "GET_ALL_Employees",
         data: res.data.leaders,
@@ -82,4 +79,26 @@ export function getAllLeaders(titleId) {
     .catch((err) => {
       console.log("errr", err)
     });
+}
+export function getMyData() {
+  const options = {
+      method: 'POST',
+      headers: {
+          Authorization: localStorage.getItem('token'),
+
+      },
+      url: 'http://localhost:5000/api/verifyEmployee/getMyData'
+  }
+  axios(options)
+  .then((res) => {
+      dispatcher.dispatch({
+          type: "GET_MY_DATA",
+          data: res.data.employee[0],
+      });
+
+  })
+  .catch((err) => {
+      console.log(err)
+  });
+
 }
