@@ -5,6 +5,9 @@
 .mt-10 {
 	margin-top: 10rem;
 }
+.mt-6 {
+	margin-top: 4.7rem;
+}
 .pt-10{
 	margin-top: 20rem;
 }
@@ -51,22 +54,50 @@
 	height: 50px;
 }
 
-
-.icon {
-	color:black;
-}
-
-#icon a {
-	color: black;
-	text-decoration: none;
-}
-
-#icon a:hover i {
+.icon:hover {
 	color: red;
 }
 p.thick {
 	font-weight: bold;
   }
   
+/* profile */
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
 
 
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: red;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+
+
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid red;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+
+.tableIcons {
+	padding-left: 100px;
+  }
