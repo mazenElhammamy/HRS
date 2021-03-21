@@ -60,7 +60,6 @@ export function getMyRequestsApplications() {
 
     axios(options)
         .then((res) => {
-            console.log("reeeeeeeee", res.data.requests)
             dispatcher.dispatch({
                 type: "GET_MY_REQUESTS",
                 data: res.data.requests,
@@ -74,7 +73,7 @@ export function getMyRequestsApplications() {
 }
 
 export function editRequest(obj) {
-    console.log(obj)
+
     const options = {
       method: 'PUT',
       data: obj,
@@ -82,7 +81,6 @@ export function editRequest(obj) {
     };
     return axios(options)
     .then((res) => {
-        console.log("resultttt", res.data.request)
         dispatcher.dispatch({
             type: "GET_MY_UPDATED_REQUESTS",
             data: res.data.request,

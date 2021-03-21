@@ -49,7 +49,6 @@ export default class MyLeaves extends Component {
 
 
     editRequest(id,status){
-        console.log(id)
        const obj ={
            id : id ,
            status : status

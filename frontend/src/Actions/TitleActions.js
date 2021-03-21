@@ -2,7 +2,7 @@ import dispatcher from "../dispatcher/dispatcher";
 import axios from "axios"
 
 export function createTitle(jobTitle, history) {
-   console.log(jobTitle)
+
    const options = {
       method: 'POST',
       data: jobTitle,
@@ -10,7 +10,6 @@ export function createTitle(jobTitle, history) {
    };
    axios(options)
       .then((res) => {
-         console.log(res)
          history.push('/home');
       })
       .catch((err) => {

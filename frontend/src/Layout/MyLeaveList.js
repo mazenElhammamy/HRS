@@ -20,7 +20,6 @@ export default class MyLeave extends Component {
     }
     componentWillUnmount() {
         RequestStore.removeListener("change", this.getRequests);
-        // remove listener to change event
     }
     getRequests() {
         this.setState({ myRequests: RequestStore.getAll() })
@@ -42,7 +41,6 @@ export default class MyLeave extends Component {
             }
             rows.push(obj);
         });
-        console.log(rows)
         return rows;
     }
 

@@ -42,7 +42,7 @@ export function deleteDepartment(_id) {
     };
     axios(options)
         .then((res) => {
-            console.log("done", res.data)
+         
         })
         .catch((err) => {
             console.log(err)

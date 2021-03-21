@@ -33,13 +33,11 @@ export default class Home extends Component {
         EmployeeStore.on("change", this.getLoggedIn)
     }
     componentWillUnmount() {
-        console.log("logedin from home after unmount", this.state.loggedIn)
         EmployeeStore.removeListener("change", this.getLoggedIn);
       
     }
 
     render() {
-        console.log("logedin from home", this.state.loggedIn)
         return (
             <React.Fragment>
                 {

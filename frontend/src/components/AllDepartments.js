@@ -42,7 +42,6 @@ export default class AllDepartments extends Component {
                     label: 'No',
                     onClick: () => console.log("no")
 
-                    // alert('Click No')
                 }
             ]
         });

@@ -71,33 +71,15 @@ p.thick {
 }
 
 
-.profile-head h5{
+.profile-head h5 {
     color: #333;
 }
+
 .profile-head h6{
     color: red;
 }
-.profile-edit-btn{
-    border: none;
-    border-radius: 1.5rem;
-    width: 70%;
-    padding: 2%;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-}
-
-
-
-.profile-head .nav-tabs .nav-link.active{
-    border: none;
-    border-bottom:2px solid red;
-}
-.profile-work{
-    padding: 14%;
-    margin-top: -15%;
-}
-
+/* 
+////////////////////////////////// */
 .tableIcons {
 	padding-left: 100px;
   }

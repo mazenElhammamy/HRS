@@ -13,13 +13,11 @@ class RequestStore extends EventEmitter {
         return this.requests;
     }
     addNewRequests(request){
-        console.log(this.requests)
         this.requests.push(request);
         this.emit("change");
 
     }
     getUpdatedRequest(request){
-        console.log(this.requests)
         const updatedIndex =  this.requests.findIndex(currentReq =>  currentReq._id == request.id);  
         if(updatedIndex > -1){
             this.requests[updatedIndex].status = request.status;

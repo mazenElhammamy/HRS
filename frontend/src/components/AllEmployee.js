@@ -60,7 +60,7 @@ export default class AllEmployee extends Component {
     }
     componentWillUnmount() {
         EmployeeStore.removeListener("change", this.getEmployees);
-        // remove listener to change event
+       
     }
     render() {
         let iconStyles = { fontSize: "1.5em", cursor: "pointer", marginLeft: "30px" };
