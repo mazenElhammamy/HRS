@@ -14,7 +14,7 @@ class TitleStore extends EventEmitter {
     }
     handleActions(action) {
         switch (action.type) {
-            case "GIT_TITLES-BY-DEPARTMENT": {
+            case "GET_TITLES-BY-DEPARTMENT": {
                 this.getTitlesByDepartment(action.data);
             }
         }

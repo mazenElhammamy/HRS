@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const Employee = mongoose.model('Employee', {
 	firstname: {
-		type: String,
+		type: String,                     
 		required: true,
 	},
 	lastname: {
 		type: String,
-		// required: true,
+		required: true,
 	},
 	fullname: {
 		type: String,
-		// required: true,
+		 required: true,
 	},
 	email: {
 		type: String,
@@ -26,40 +26,38 @@ const Employee = mongoose.model('Employee', {
 		required: true,
 	},
 	mobileNumber: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 	homeNumber: {
-		type: Number,
+		type: String,
 	},
 	sallary: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 	photo: {
 		type: String,
-		
+		default:null,
 	},
 	titleId: {
-		type: String,
-		required: true,
-		default: null, 
+		type:  mongoose.Schema.ObjectId,
+		required: true,	
 	},
+	
 	departmentId: {
-		type: String,
+		type: mongoose.Schema.ObjectId,
 		required: true,
 	},
-	mangerID: {
-		type: String,
-		// required: true,
+	
+	mangerId: {
+		type:  mongoose.Schema.ObjectId,
+		default:null
 	},
+	
 	vacationDays :{
 		type: Number,
 		default:21 
-	},
-	assets :{
-		type: [],
-		 
 	},
 	admin :{
 		type: Boolean,
@@ -67,3 +65,4 @@ const Employee = mongoose.model('Employee', {
 	}
 });
 module.exports = Employee;
+

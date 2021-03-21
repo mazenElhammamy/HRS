@@ -5,7 +5,7 @@ const JobTitle = mongoose.model('JobTitle', {
 		required: true,
 	},
 	departmentId: {
-		type: String,
+		type: mongoose.Schema.ObjectId,
 		required: true,    
 	},	
 	hierarchyNumber:{

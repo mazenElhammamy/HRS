@@ -1,26 +1,34 @@
 const { Router } = require('express')
 const titleRouter = Router()
-const Title = require('../models/JobTitle')
-const Department = require('../models/Department')
+const JobTitle = require('../models/JobTitle')
+
 
 
 
 titleRouter.post('/addTitle', async (req, res, next) => {
-    try {
-        
+    try {  
+        const currentHirarchyNumber = req.body.belowTitleHierarchyNumber;
         const obj = {
-            titleName : req.body.titleName,
+            titleName :req.body.titleName,
             departmentId : req.body.departmentId ,
-            hierarchyNumber :req.body.hierarchyNumber
+            hierarchyNumber :currentHirarchyNumber+1 || 1
         }
-        const title = new Title(obj);
-        console.log(title.departmentId)
-        await title.save()
+
+        await JobTitle.updateMany(
+            {
+                departmentId: obj.departmentId,
+                hierarchyNumber: { $gt: currentHirarchyNumber}
+            },
+            {
+                $inc: { hierarchyNumber: 1}
+            } 
+        )
+        const newTitle = new JobTitle(obj)
+        await newTitle.save()
         res.status(200).json({ status: "successful title adding" })
         return
     } catch(err) {
         res.status(400).json({ status: "failed to add title" })
-        // console.log(err)
         return
 
     }
@@ -28,8 +36,8 @@ titleRouter.post('/addTitle', async (req, res, next) => {
 
 titleRouter.post('/titleByDepartment', async (req, res, next) => {
     try {
-        const titles= await Title.find({ departmentId:req.body.departmentId});
-        res.status(200).json({ status: "successful gitting titles",titles:titles })
+        const jobtitles= await JobTitle.find({$or:[{departmentId:req.body.departmentId} ,{departmentId:null}]});
+        res.status(200).json({ status: "successful gitting titles",titles:jobtitles })
         return
     } catch(err) {
         res.status(400).json({ status: "failed to git titles" })
