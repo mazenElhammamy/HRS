@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Col, Button } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { Schema } from '../Schema/EmployeeFormSchema'
 import DepartmentStore from './../Store/departmentStore';
 import TitleStore from './../Store/titleStore';
 import * as DepartmentActions from "../Actions/DepartmentActions"
 import * as TitletActions from "../Actions/TitleActions"
 import * as EmployeeActions from "../Actions/EmployeeActions"
+import { addFormGroup, addSelectFormGroup ,formButton } from "../utils/formUtils"
+import EmployeeStore from './../Store/employeeStore';
 
 const initialState = {
     employee: {
@@ -18,17 +20,17 @@ const initialState = {
         homeNumber: '',
         sallary: "",
         address: "",
-        titleId: "",
-        departmentId: "",
-        mangerName: "",
+        titleName: "",
+        departmentName: "",    
+        mangerId: null,
         admin: Boolean
 
     },
     errorMap: {},
-    errorMessage: '',
     departments: [],
-    titles: []
-
+    titles: [],
+    leaders: [],
+    
 };
 export default class AddEmployee extends Component {
     constructor() {
@@ -37,27 +39,31 @@ export default class AddEmployee extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validate = this.validate.bind(this);
-        this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
+        this.addFormRow = this.addFormRow.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
+        this.getTitles = this.getTitles.bind(this);
+        this.getLeaders = this.getLeaders.bind(this);
+        this.getDepartments = this.getDepartments.bind(this);
     }
+
     componentDidMount() {
         DepartmentActions.getAllDepartment();
-        DepartmentStore.on("change", () => {
-            this.setState({ departments: DepartmentStore.getAll() });
-        });
+        DepartmentStore.on("change", this.getDepartments);
     }
- 
+
 
     validate() {
         const employee = {
             firstname: this.state.employee.firstname,
             lastname: this.state.employee.lastname,
             fullname: this.state.employee.fullname,
-            email:this.state.employee.email,
-            password:this.state.employee.password,
+            email: this.state.employee.email,
+            password: this.state.employee.password,
             homeNumber: this.state.employee.homeNumber,
-            mobileNumber:this.state.employee.mobileNumber,
+            mobileNumber: this.state.employee.mobileNumber,
             address: this.state.employee.address,
-            sallary:this.state.employee.sallary
+            sallary: this.state.employee.sallary,
+
         }
         const { error } = Schema.validate(employee, { abortEarly: false });
         const errorMap = {};
@@ -68,7 +74,7 @@ export default class AddEmployee extends Component {
                 const key = errorDetails.context.key;
                 errorMap[key] = errorDetails.message;
             });
-            this.setState({ errorMap})  
+            this.setState({ errorMap })
         }
         return result
     };
@@ -76,130 +82,152 @@ export default class AddEmployee extends Component {
         let state = { ...this.state.employee };
         state[e.currentTarget.name] = e.currentTarget.value;
         this.setState({ employee: state });
-
     };
-    handleDepartmentChange(e) {
-        let state = { ...this.state.employee };
-        state[e.currentTarget.name] = e.currentTarget.value;
-        this.setState({ employee: state });
-        TitletActions.gitTitlesByDepartment(e.currentTarget.value);
-        TitleStore.on("change", () => {
-            this.setState({ titles: TitleStore.getAll() });
-        })
+
+
+    handleSelectChange(selectedOption, name) {
+        let employee = { ...this.state.employee };
+        employee[name] = selectedOption.value;
+        this.setState({ employee })
+        switch (name) {
+            case "departmentId":
+                TitletActions.getTitlesByDepartment(selectedOption.value);
+                TitleStore.on("change",this.getTitles)
+                break;
+            case "titleId":
+                EmployeeActions.getAllLeaders(selectedOption.value);
+                EmployeeStore.on("change",this.getLeaders)
+                break;
+        }
     }
+
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state)
         const isValid = this.validate();
         if (isValid) {
             const errorMap = {};
-            this.setState({errorMap})
-             const employee = this.state.employee
-             EmployeeActions.addNewEmployee(employee);
-             this.props.history.push('/employeeHome');
-        } 
+            this.setState({ errorMap })
+            const employee = this.state.employee
+            EmployeeActions.addNewEmployee(employee, this.props.history);
+
+        }
     };
-    render() {
+
+    addFormRow(formGroups) {
         return (
-            <Form className='container mt-10' onSubmit={this.handleSubmit} >
+            <Form.Row>
+                {
+                    formGroups.map((group => {
+                        return (
+                            addFormGroup(group.controlId, group.label,group.placeholder, group.fieldValue, group.fieldName, this.handleChange, this.state.errorMap, group.type)
+                        )
+                    }))
+                }
+            </Form.Row>
+        )
+    }
+    getTitles(){
+        this.setState({ titles: TitleStore.getAll() })
+    }
+    getLeaders(){
+        this.setState({ leaders: EmployeeStore.getAll() })
+    }
+    getDepartments(){
+        this.setState({ departments: DepartmentStore.getAll() })
+    }
+    componentWillUnmount(){
+        TitleStore.removeListener("change",this.getTitles)
+        EmployeeStore.removeListener("change",this.getLeaders)
+        DepartmentStore.removeListener("change",this.getDepartments)
+    }
+    render() {
+        const firstnameGroup = {
+            controllId: "formGridFirstName",
+            label: "First name",
+            placeholder:"First name",
+            fieldValue: this.state.employee.firstname,
+            fieldName: "firstname",
+            type: "text"
+        }
+        const lastnameGroup = {
+            controllId: "formGridLastName",
+            label: "Last name",
+            placeholder:"Last name",
+            fieldValue: this.state.employee.lastname,
+            fieldName: "lastname",
+            type: "text"
+        }
+
+        const fullnameGroup = {
+            controllId: "formGridFullName",
+            label: "Full name",
+            placeholder:"Full name",
+            fieldValue: this.state.employee.fullname,
+            fieldName: "fullname",
+            type: "text"
+        }
+        const emailGroup = {
+            controllId: "formGridEmail",
+            label: "Email",
+            placeholder:"Email",
+            fieldValue: this.state.employee.email,
+            fieldName: "email",
+            type: "text"
+        }
+        const passwordGroup = {
+            controllId: "formGridPassword",
+            label: "Password",
+            placeholder:"Password",
+            fieldValue: this.state.employee.password,
+            fieldName: "password",
+            type: "password"
+        }
+        const addressGroup = {
+            controllId: "formGridAddress",
+            label: "Address",
+            placeholder:"Address",
+            fieldValue: this.state.employee.address,
+            fieldName: "address",
+            type: "text"
+        }
+        const mobileNumberGroup = {
+            controllId: "formGridMobileNumber",
+            label: "Mobile number",
+            placeholder:"Mobile number",
+            fieldValue: this.state.employee.mobileNumber,
+            fieldName: "mobileNumber",
+            type: "text"
+        }
+        const homeNumberGroup = {
+            controllId: "formGridHomeNumber",
+            label: "Home number",
+            placeholder:"Home number",
+            fieldValue: this.state.employee.homeNumber,
+            fieldName: "homeNumber",
+            type: "text"
+        }
+        const sallaryGroup = {
+            controllId: "formGridSallary",
+            label: "Sallary",
+            placeholder:"Sallary",
+            fieldValue: this.state.employee.sallary,
+            fieldName: "sallary",
+            type: "text"
+        }
+        return (
+            <Form className='container mt-10 mb-5 pb-5' onSubmit={this.handleSubmit} >
                 <h2 className="h3 mb-4 page-title">Add Employee</h2>
+                {this.addFormRow([firstnameGroup, lastnameGroup])}
+                {this.addFormRow([fullnameGroup])}
+                {this.addFormRow([emailGroup, passwordGroup])}
+                {this.addFormRow([addressGroup])}
+                {this.addFormRow([mobileNumberGroup, homeNumberGroup, sallaryGroup])}
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridFirstName">
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control type="text" placeholder="First name" onChange={this.handleChange}      
-                            value={this.state.employee.firstname} name="firstname" />              
-                        {this.state.errorMap.firstname && <div className="alert alert-danger">{this.state.errorMap.firstname}</div>}
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridLastName">
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control type="text" placeholder="Last name" onChange={this.handleChange}
-                            value={this.state.employee.lastname} name="lastname" />
-                        {this.state.errorMap.lastname && <div className="alert alert-danger">{this.state.errorMap.lastname}</div>}
-                    </Form.Group>
+                    {addSelectFormGroup("formGridDepartment", "Department", this.state.employee.department, this.handleSelectChange, this.state.departments, "_id", "departmentName", "departmentId")}
+                    {addSelectFormGroup("formGridTitle", "Title", this.state.employee.title, this.handleSelectChange, this.state.titles, "_id", "titleName", "titleId")}
+                    {addSelectFormGroup("formGridLeader", "Reports To", this.state.employee.leader, this.handleSelectChange, this.state.leaders, "_id", "fullname", "mangerId")}
                 </Form.Row>
-                <Form.Group controlId="formGridFullName">
-                    <Form.Label>Full name</Form.Label>
-                    <Form.Control placeholder="Full name" onChange={this.handleChange}
-                        value={this.state.employee.fullname} name="fullname"/>
-                    {this.state.errorMap.fullname && <div className="alert alert-danger">{this.state.errorMap.fullname}</div>}
-                </Form.Group>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="text" placeholder="Enter email" onChange={this.handleChange}
-                        value={this.state.employee.email} name="email" />
-                        {this.state.errorMap.email && <div className="alert alert-danger">{this.state.errorMap.email}</div>}
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password"onChange={this.handleChange}
-                            value={this.state.employee.password}name="password"/>
-                        {this.state.errorMap.password && <div className="alert alert-danger">{this.state.errorMap.password}</div>}
-                    </Form.Group>
-                </Form.Row>
-                    <Form.Group controlId="formGridAddress">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St"onChange={this.handleChange}
-                            value={this.state.employee.address} name="address" />
-                        {this.state.errorMap.address && <div className="alert alert-danger">{this.state.errorMap.address}</div>}
-                    </Form.Group>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridMobileNumber">
-                        <Form.Label>Mobile number</Form.Label>
-                        <Form.Control type="text" placeholder="mobile number"onChange={this.handleChange}
-                            value={this.state.employee.mobileNumber} name="mobileNumber"/>
-                        {this.state.errorMap.mobileNumber && <div className="alert alert-danger">{this.state.errorMap.mobileNumber}</div>}
-                    </Form.Group>
-                <Form.Group as={Col} controlId="formGridHomeNumber">
-                    <Form.Label>Home number</Form.Label>
-                    <Form.Control type="text" placeholder="home number" onChange={this.handleChange}
-                        value={this.state.employee.homeNumber} name="homeNumber" />
-                    {this.state.errorMap.homeNumber && <div className="alert alert-danger">{this.state.errorMap.homeNumber}</div>}
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridSallary">
-                        <Form.Label>Sallary</Form.Label>
-                        <Form.Control type="text" placeholder="..." onChange={this.handleChange}
-                            value={this.state.employee.sallary}name="sallary"/>
-                        {this.state.errorMap.sallary && <div className="alert alert-danger">{this.state.errorMap.sallary}</div>}
-                    </Form.Group> 
-                </Form.Row>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridDepartment">
-                        <Form.Label>Department</Form.Label>
-                        <select className="form-control" aria-label="Default select example"
-                            id="departmentId" value={this.state.employee.departmentId}
-                            onChange={this.handleDepartmentChange}name="departmentId" >
-                            <option >Choose from these departments:</option>
-                            {this.state.departments.map((department) => {
-                                return (
-                                    <option key={department._id} value={department._id}>{department.departmentName}</option>
-                                )
-                            })}
-                        </select>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridTitle">
-                        <Form.Label>Title</Form.Label>
-                        <select  className="form-control" aria-label="Default select example"
-                            id="titleId" value={this.state.employee.titleId} onChange={this.handleChange} name="titleId">
-                            <option >Choose from these titles:</option>
-                            {this.state.titles.map((title) => {
-                                return (
-                                    <option key={title._id} value={title._id}>{title.titleName}</option>
-                                )
-                            })}
-                        </select>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridRepotsTo">
-                        <Form.Label>Reports To</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
-                        </Form.Control>
-                    </Form.Group>
-                </Form.Row>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+               {formButton("Submit")}
             </Form>
 
         )

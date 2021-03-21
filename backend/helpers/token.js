@@ -5,12 +5,12 @@ const verifyToken = util.promisify(jsonWebToken.verify)
 const secretKey = "HamadaELGenn"
 
 
-const generate = (userId)=>{
-    return signToken({userId:userId},secretKey);
+const generate = (employeeId)=>{
+    return signToken({employeeId:employeeId},secretKey);
 
 }
 
-const verify = (token)=>{
+const verify = (token) => {
 return verifyToken(token,secretKey);
 }
 

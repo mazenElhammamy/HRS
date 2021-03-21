@@ -1,39 +1,39 @@
 import React, { Component } from 'react';
+import { Form } from 'react-bootstrap';
+import { addFormGroup, formButton } from "../utils/formUtils"
+import * as EmployeeActions from "../Actions/EmployeeActions"
 export default class SignIn extends Component {
-	
-	handleSubmit=()=>{
-		this.props.history.replace('/employeeHome');
+	constructor() {
+		super();
+		this.state = {
+			email: "",
+			password: "",
+		}
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
-
+	handleSubmit(e) {
+		e.preventDefault();
+		EmployeeActions.login(this.state, this.props.history);
+		
+	}
+	handleChange(e) {
+        let state = { ...this.state };
+        state[e.currentTarget.name] = e.currentTarget.value;
+        this.setState(state);
+    };
 	render() {
 		return (
-			<div className="container text-center mt-10">
-				<div className="row">
+			<div className="container text-center mt-10 ">
 					<div className="col-md-4 m-auto">
-						<h1 className="modal-title w-100 font-weight-bold">   
-                            <img className='logo' src="./img/logo.jpg"  />
-						</h1>
+					<span className="font-weight-bold d-block mb-2">Welcome Back</span>
 						<hr className="bottom-border bottom-border-seconadry" />
-
-						<span className="font-weight-bold d-block mb-2">Welcome Back</span>
-
-						<form onSubmit={this.handleSubmit}>
-							<div className="form-group">
-								<input type="text" className="form-control" placeholder="Email" name="email"  required />
-							</div>
-						
-							<div className="form-group">
-								<input type="password" className="form-control" placeholder="Password" name="password"  required />
-							</div>
-							<div className="form-group">
-								<button type="submit" className="btn btn-dark btn-block rounded-pill">
-									Login
-								</button>
-							</div>
-							
-						</form>
+						<Form  onSubmit={this.handleSubmit} >
+							{addFormGroup("formGridEmail", null,"email", this.state.email, "email", this.handleChange, null, "text")}
+							{addFormGroup("formGridPassword", undefined,"password", this.state.password, "password", this.handleChange, null, "password")}
+							{formButton("Login")}
+						</Form>
 					</div>
-				</div>
 			</div>
 		);
 	}

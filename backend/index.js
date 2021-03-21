@@ -4,8 +4,9 @@ const departmentRouter = require('./routers/Department');
 const titleRouter = require('./routers/Title');
 const cors = require('cors');
 const app = express();
-
-
+const verifyEmployeeRouter = require('./routers/VerifyEmployee')
+const verifyEmployee = require('./middlewares/VerifyEmployee');
+const requestRouter = require("./routers/Request")
 
 require('./db_connection'); // to connect the database
 
@@ -18,8 +19,10 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/employee', employeeRouter);
+app.use('/api/verifyEmployee',verifyEmployee, verifyEmployeeRouter);
 app.use('/api/department', departmentRouter);
 app.use('/api/title', titleRouter);
+app.use('/api/request', requestRouter);
 app.get('/*', (req, res) => {
 	res.status(400).send('<h1>Error 404</h1>');
 });
