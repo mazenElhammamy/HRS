@@ -93,7 +93,10 @@ export function getMyData() {
   .then((res) => {
       dispatcher.dispatch({
           type: "GET_MY_DATA",
-          data: res.data.employee[0],
+          data:{
+            employee:res.data.employee[0],
+            mangers :res.data.mangers,
+          } 
       });
 
   })
@@ -101,4 +104,25 @@ export function getMyData() {
       console.log(err)
   });
 
+}
+
+export function uploadPhoto(data) {
+  const options = {
+    method: 'put',
+    headers: {
+      Authorization: localStorage.getItem('token'),
+      'Content-Type': 'multipart/form-data',
+    },
+    data: data,
+    url: 'http://localhost:5000/api/verifyEmployee/uploadPhoto',
+  };
+  axios(options)
+    .then((res) => {
+      const user = res.data.user;
+      this.props.setUser(user);
+      this.props.history.push('/profile');
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
 }

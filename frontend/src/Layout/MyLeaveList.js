@@ -58,7 +58,7 @@ export default class MyLeave extends Component {
         ];
         return (
             <div className="container">
-                <RequestFormPopup  />
+                <RequestFormPopup x="myLeves" />
                 <InputLabel>My Leaves</InputLabel>
                 <div style={{ height: 320, width: '100%' }} >
                     <DataGrid rows={this.getTableRows()} columns={columns} pageSize={3} />

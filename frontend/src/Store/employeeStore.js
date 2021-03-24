@@ -5,14 +5,19 @@ class EmployeeStore extends EventEmitter {
         super()
         this.loggedIn = false
         this.employees = []
-        this.employee = {}
+        this.mangers =[]
+        this.employee = {
+            info:"",
+            mangers:""
+        }
     }
     getAllEmployees(data) {
         this.employees = data;
         this.emit("change")
     }
     getMyData(data) {
-        this.employee = data
+        this.employee.info = data.employee;
+        this.employee.mangers = data.mangers;
         this.emit("change")
     }
     setLoggedIn(action) {
@@ -33,8 +38,8 @@ class EmployeeStore extends EventEmitter {
         this.loggedIn = false;
         this.emit("change");
     }
-    getEmployeeData() {
-        return this.employee;
+    getEmployeeData() { 
+        return this.employee
     }
     getLoggedIn() {
         return this.loggedIn;
