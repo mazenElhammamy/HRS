@@ -91,10 +91,11 @@ export function getMyData() {
   }
   axios(options)
   .then((res) => {
+    console.log(res)
       dispatcher.dispatch({
           type: "GET_MY_DATA",
           data:{
-            employee:res.data.employee[0],
+            employee:res.data.employee,
             mangers :res.data.mangers,
           } 
       });
@@ -118,9 +119,11 @@ export function uploadPhoto(data) {
   };
   axios(options)
     .then((res) => {
-      const user = res.data.user;
-      this.props.setUser(user);
-      this.props.history.push('/profile');
+      console.log("upload:", res.data)
+      dispatcher.dispatch({
+        type: "UPDATE_PHOTO",
+        data:res.data.photo
+    });
     })
     .catch((err) => {
       console.log(err.response);

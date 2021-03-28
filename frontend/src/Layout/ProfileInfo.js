@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as EmployeeActions from "../Actions/EmployeeActions"
 import EmployeeStore from './../Store/employeeStore';
-import RequestFormPopup from './RequestFormPopup';
+import FormPopup from './FormPopup';
 
 
 
@@ -43,9 +43,9 @@ export default class ProfileInfo extends Component {
         return (
             <div className="tracking-list">
                 { this.state.employee.mangers && this.state.employee.mangers.length > 0 ? this.state.employee.mangers.map((manger) => {
-                   console.log(manger.photo)
+                  
                    return (
-                        <div className="tracking-item" key={manger.id}>
+                        <div className="tracking-item" key={manger._id}>
                             {
                                manger.photo != null ?
                                   <img src={`.././uploadedPhotos/${manger.photo}`} alt="..." className="tracking-icon status-intransit"  />
@@ -54,7 +54,7 @@ export default class ProfileInfo extends Component {
                             <div className="tracking-content"><span>{manger.fullname}</span>{manger.title[0].titleName}</div>
                         </div>
                     )
-                }) : ""}
+                }) : null}
                 <div className="tracking-item shift"  >
                     <div className="border"></div>
                     {
@@ -62,7 +62,9 @@ export default class ProfileInfo extends Component {
                                   <img src={`.././uploadedPhotos/${this.state.employee.info.photo}`} alt="..." className="tracking-icon status-intransit"  />
                                   :  <img src="./img/default.png" className="tracking-icon status-intransit"  alt="" />
                           }
-                    <div className="tracking-content"><span>{this.state.employee.info.fullname}</span>{this.state.employee.info.title[0].titleName}</div>
+                    <div className="tracking-content"><span>{this.state.employee.info.fullname}</span>
+                    {this.state.employee.info.title && this.state.employee.info.title.length > 0 ?this.state.employee.info.title[0].titleName : null}
+                    </div>
                 </div>
             </div>
         )
@@ -85,7 +87,7 @@ export default class ProfileInfo extends Component {
                           }
 
                          
-                          <RequestFormPopup x="change photo" />
+                          <FormPopup x="change photo" />
 
                       </div> 
                   </div>

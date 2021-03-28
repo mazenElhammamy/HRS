@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import RequestFormPopup from './RequestFormPopup';
 import { InputLabel } from '@material-ui/core';
 import * as RequestActions from '../Actions/RequestActions'
 import RequestStore from '../Store/requestStore';
@@ -22,7 +21,6 @@ export default class MyLeaves extends Component {
     }
     componentWillUnmount() {
         RequestStore.removeListener("change", this.getRequests);
-        // remove listener to change event
     }
     getRequests() {
         this.setState({ myRequests: RequestStore.getAll() })

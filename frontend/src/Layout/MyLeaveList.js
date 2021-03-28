@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import RequestFormPopup from './RequestFormPopup';
+import FormPopup from './FormPopup';
 import { InputLabel } from '@material-ui/core';
 import * as RequestActions from '../Actions/RequestActions'
 import RequestStore from '../Store/requestStore';
@@ -58,7 +58,7 @@ export default class MyLeave extends Component {
         ];
         return (
             <div className="container">
-                <RequestFormPopup x="myLeves" />
+                <FormPopup x="myLeves" />
                 <InputLabel>My Leaves</InputLabel>
                 <div style={{ height: 320, width: '100%' }} >
                     <DataGrid rows={this.getTableRows()} columns={columns} pageSize={3} />

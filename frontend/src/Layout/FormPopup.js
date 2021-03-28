@@ -9,7 +9,7 @@ import UploadPhotoForm from './uploadPhotoForm';
 
 
 
-export default function RequestFormPopup(props) {
+export default function FormPopup(props) {
     const [open, setOpen] = React.useState(false);
     const [lable, setLable] = React.useState(props.x);
     const handleClickOpen = () => {

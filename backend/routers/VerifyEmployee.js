@@ -84,7 +84,7 @@ verifyEmployeeRouter.post('/getMyRequestsApplications', async (req, res, next) =
 
 
 verifyEmployeeRouter.post('/getMyData', async (req, res, next) => {
- 
+
     try {
         if (req.employeeId) {
             const employee = await Employee.aggregate(
@@ -138,7 +138,6 @@ verifyEmployeeRouter.post('/getMyData', async (req, res, next) => {
                         },
 
                     },
-
                     {
                         $project:
                         {
@@ -149,13 +148,12 @@ verifyEmployeeRouter.post('/getMyData', async (req, res, next) => {
                             "department.departmentName": 1, "title.titleName": 1,
                             "mangers": 1
 
-
-
                         }
                     }
                 ]
             )
-          const  ids = employee[0].mangers.map(function(manger) { return mongoose.Types.ObjectId(manger.id) })
+            console.log(employee)
+            const ids = employee[0].mangers.map(function (manger) { return mongoose.Types.ObjectId(manger.id) })
             const mangers = await Employee.aggregate(
                 [
                     { "$match": { "_id": { "$in": ids } } },
@@ -175,15 +173,15 @@ verifyEmployeeRouter.post('/getMyData', async (req, res, next) => {
                             _id: 1,
                             fullname: 1,
                             photo: 1,
-                             "title.titleName": 1,
-                             "title.hierarchyNumber": 1
+                            "title.titleName": 1,
+                            "title.hierarchyNumber": 1
 
                         }
                     }
                 ]
             )
-
-            res.status(200).json({ status: "successful getting employee", employee: employee, mangers: mangers })
+           
+            res.status(200).json({ status: "successful getting employee", employee: employee[0], mangers: mangers })
             return
         }
         res.status(401).json({ status: 'User not authorized' });
@@ -227,8 +225,9 @@ verifyEmployeeRouter.put('/uploadPhoto', async (req, res, next) => {
                             } else {
                                 employee.photo = photoName;
                                 const updatedEmployee = await new Employee(employee)
+
                                 await Employee.updateOne({ _id: updatedEmployee._id }, updatedEmployee)
-                                res.status(200).json({ status: 'successeful update photo', employee: updatedEmployee });
+                                res.status(200).json({ status: 'successeful update photo', photo: photoName });
                                 return
                             }
                         })

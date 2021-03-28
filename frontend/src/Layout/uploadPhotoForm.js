@@ -20,7 +20,7 @@ handleSubmit(e) {
     const data = new FormData();
 		data.append('file', this.state.uploadPhoto);
         EmployeeActions.uploadPhoto(data)
-		
+		this.props.handleClose()
 
 }
 
@@ -28,7 +28,6 @@ handleSubmit(e) {
 
 
 updateHandler = (event) => {
-    console.log(event.target.files[0])
     this.setState({
         uploadPhoto: event.target.files[0],
         loaded: 0,

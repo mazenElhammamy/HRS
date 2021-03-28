@@ -20,6 +20,11 @@ class EmployeeStore extends EventEmitter {
         this.employee.mangers = data.mangers;
         this.emit("change")
     }
+    updatePhoto(data){
+        this.employee.info.photo = data;
+        this.emit("change")
+
+    }
     setLoggedIn(action) {
         if (action) {
             localStorage.setItem('token', action.data);
@@ -44,7 +49,7 @@ class EmployeeStore extends EventEmitter {
     getLoggedIn() {
         return this.loggedIn;
     }
-
+    
 
     getAll() {
         return this.employees;
@@ -53,12 +58,19 @@ class EmployeeStore extends EventEmitter {
         switch (action.type) {
             case "GET_ALL_Employees": {
                 this.getAllEmployees(action.data);
+                break;
             }
             case "LOGGED_IN": {
-                this.setLoggedIn(action)
+                this.setLoggedIn(action);
+                break;
             }
             case "GET_MY_DATA": {
-                this.getMyData(action.data)
+                this.getMyData(action.data);
+                break;
+            }
+            case "UPDATE_PHOTO" :{
+                this.updatePhoto(action.data);
+                break;
             }
 
         }
